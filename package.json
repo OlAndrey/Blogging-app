@@ -1,0 +1,23 @@
+{
+  "name": "blogging-app",
+  "version": "1.0.0",
+  "description": "CRUD in MongoDB, Express, React, Node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "MongoDB",
+    "Express",
+    "React",
+    "Node"
+  ],
+  "author": "Oleynik Andrey",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.36.0"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
