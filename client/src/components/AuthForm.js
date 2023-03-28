@@ -3,7 +3,13 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import useAuthFormStyles from "../styles/AuthFormStyles";
+import { makeStyles } from '@mui/styles';
+
+const useAuthFormStyles = makeStyles((theme) => ({
+    form: {
+      width: "100%", // Fix IE 11 issue.
+    },
+}))
 
 const AuthForm = ({ handelAccount, handelLogin }) => {
     const classes = useAuthFormStyles();

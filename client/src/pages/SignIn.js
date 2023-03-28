@@ -6,18 +6,11 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import AuthForm from "../components/AuthForm";
-import { makeStyles } from '@mui/styles';
+import useSignInStyles from "../styles/SignInStyles";
+import { users } from "../const/users";
 
-const useSignInStyles = makeStyles((theme) => ({
-    root: {
-      height: "100vh",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-around"
-    }
-}))
 
-export default function SignIn(props) {
+const SignIn = (props) => {
     const [account, setAccount] = useState({
         username: "",
         password: ""
@@ -34,10 +27,12 @@ export default function SignIn(props) {
     };
 
     const isVarifiedUser = (username, password) => {
-        // return users.find((user)=> user.username === username && user.password === password);
+        return users.find((user)=> user.username === username && user.password === password);
     };
 
-    const handelLogin = () => {
+    const handelLogin = (event) => {
+        event.preventDefault()
+        console.log(isVarifiedUser(account.username, account.password))
         if (isVarifiedUser(account.username, account.password)) {
             setAccount({
                 username: "",
@@ -66,9 +61,11 @@ export default function SignIn(props) {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <AuthForm />
+                    <AuthForm handelLogin={handelLogin} handelAccount={handelAccount} />
                 </div>
             </Grid>
         </Grid>
     );
 }
+
+export default SignIn; 
