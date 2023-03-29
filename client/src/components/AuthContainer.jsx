@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, CssBaseline, Paper } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import useSignInStyles from "../styles/SignInStyles";
+import useSignInStyles from "../styles/authStyles";
 
 const theme = createTheme();
 

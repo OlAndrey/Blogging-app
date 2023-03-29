@@ -8,6 +8,7 @@ const useSignInStyles = makeStyles((theme) => ({
       justifyContent: "space-around"
     },
     size: {
+      margin: "0 .5em",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -15,7 +16,7 @@ const useSignInStyles = makeStyles((theme) => ({
     },
   
     paper: {
-      padding: "1em",
+      padding: "2.5em 1em",
       display: "flex",
       flexDirection: "column",
       alignItems: "center"
