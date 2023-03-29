@@ -4,14 +4,17 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import AuthForm from "../components/AuthForm";
 import AuthContainer from "../components/AuthContainer";
 import { users } from "../const/users";
+import { useCheckAuthError } from "../hooks/useCheckAuthError";
 
 const SignUp = (props) => {
-    const [account, setAccount] = useState({
+    const init = {
         firstName: "",
         lastName: "",
         email: "",
         password: ""
-    });
+    };
+    const [account, setAccount] = useState(init);
+    const [error, setError, checkError] = useCheckAuthError(init);
 
     const handlerInput = (event) => {
         const { name, value } = event.target;
@@ -23,22 +26,21 @@ const SignUp = (props) => {
         setAccount(accountCopy);
     };
 
-    const isRegistryUser = (email, password) => {
-        return users.find(
-            (user) => user.email === email && user.password === password
-        );
+    const isRegistryUser = (email) => {
+        return users.find((user) => user.email === email);
     };
 
     const handelLogin = (event) => {
         event.preventDefault();
-        if (!isRegistryUser(account.email, account.password)) {
-            users.push(account);
-            setAccount({
-                firstName: "",
-                lastName: "",
-                email: "",
-                password: ""
-            });
+        if (Object.values(account).find((item) => item === "")) {
+            if (!isRegistryUser(account.email)) {
+                users.push(account);
+                setAccount(init);
+            } else
+                setError({
+                    ...error,
+                    email: "The email address is already in use by another account"
+                });
         }
     };
 
@@ -53,8 +55,11 @@ const SignUp = (props) => {
 
             <AuthForm
                 isNewUser={true}
+                error={error}
+                values={account}
                 handelLogin={handelLogin}
                 handlerInput={handlerInput}
+                checkError={(e) => checkError(e.target.name, e.target.value)}
             />
 
             <Grid container justify="flex-end">

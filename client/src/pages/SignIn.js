@@ -4,18 +4,22 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { users } from "../const/users";
 import AuthForm from "../components/AuthForm";
 import AuthContainer from "../components/AuthContainer";
+import { useCheckAuthError } from "../hooks/useCheckAuthError";
 
 const SignIn = (props) => {
-    const [account, setAccount] = useState({
+    const initState = {
         email: "",
         password: ""
-    });
+    };
+    const [account, setAccount] = useState(initState);
+    const [error, setError, checkError] = useCheckAuthError(initState);
 
-    const handlerInput = (property, event) => {
+    const handlerInput = (event) => {
+        const { name, value } = event.target;
         const accountCopy = {
             ...account
         };
-        accountCopy[property] = event.target.value;
+        accountCopy[name] = value;
 
         setAccount(accountCopy);
     };
@@ -28,13 +32,14 @@ const SignIn = (props) => {
 
     const handelLogin = (event) => {
         event.preventDefault();
-        console.log(isVarifiedUser(account.username, account.password));
-        if (isVarifiedUser(account.username, account.password)) {
-            setAccount({
-                email: "",
-                password: ""
+        if (isVarifiedUser(account.email, account.password)) {
+            setAccount(initState);
+        } else
+            setError({
+                ...error,
+                password: "Email or password is incorrect!!!",
+                email: "Email or password is incorrect!!!"
             });
-        }
     };
 
     return (
@@ -45,7 +50,13 @@ const SignIn = (props) => {
             <Typography component="h1" variant="h5">
                 Sign in
             </Typography>
-            <AuthForm handelLogin={handelLogin} handlerInput={handlerInput} />
+            <AuthForm
+                error={error}
+                handelLogin={handelLogin}
+                handlerInput={handlerInput}
+                values={account}
+                checkError={(e) => checkError(e.target.name, e.target.value)}
+            />
             <Grid container>
                 <Grid item>
                     <Link href="#" variant="body2">
