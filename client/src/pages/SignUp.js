@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import { Grid, Avatar, Link, Typography } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { users } from "../const/users";
 import AuthForm from "../components/AuthForm";
 import AuthContainer from "../components/AuthContainer";
+import { users } from "../const/users";
 
-const SignIn = (props) => {
+const SignUp = (props) => {
     const [account, setAccount] = useState({
+        firstName: "",
+        lastName: "",
         email: "",
         password: ""
     });
 
-    const handlerInput = (property, event) => {
+    const handlerInput = (event) => {
+        const { name, value } = event.target;
         const accountCopy = {
             ...account
         };
-        accountCopy[property] = event.target.value;
+        accountCopy[name] = value;
 
         setAccount(accountCopy);
     };
 
-    const isVarifiedUser = (email, password) => {
+    const isRegistryUser = (email, password) => {
         return users.find(
             (user) => user.email === email && user.password === password
         );
@@ -28,9 +31,11 @@ const SignIn = (props) => {
 
     const handelLogin = (event) => {
         event.preventDefault();
-        console.log(isVarifiedUser(account.username, account.password));
-        if (isVarifiedUser(account.username, account.password)) {
+        if (!isRegistryUser(account.email, account.password)) {
+            users.push(account);
             setAccount({
+                firstName: "",
+                lastName: "",
                 email: "",
                 password: ""
             });
@@ -43,13 +48,19 @@ const SignIn = (props) => {
                 <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                Sign in
+                Sign up
             </Typography>
-            <AuthForm handelLogin={handelLogin} handlerInput={handlerInput} />
-            <Grid container>
+
+            <AuthForm
+                isNewUser={true}
+                handelLogin={handelLogin}
+                handlerInput={handlerInput}
+            />
+
+            <Grid container justify="flex-end">
                 <Grid item>
                     <Link href="#" variant="body2">
-                        {"Don't have an account? Sign Up"}
+                        Already have an account? Sign in
                     </Link>
                 </Grid>
             </Grid>
@@ -57,4 +68,4 @@ const SignIn = (props) => {
     );
 };
 
-export default SignIn;
+export default SignUp;

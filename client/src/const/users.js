@@ -1,6 +1,6 @@
 const users = [
-    { username: "Andrey", password: "123456"},
-    { username: "Kostya", password: "Qwerty"}
+    { firstName: "Andrey", email: "andrey@test.com", password: "123456"},
+    { firstName: "Kostya", email: "kostya@test.com", password: "Qwerty"}
 ];
 
 export { users };

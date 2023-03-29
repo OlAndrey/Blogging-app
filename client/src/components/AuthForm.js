@@ -1,61 +1,68 @@
 import React from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import { makeStyles } from '@mui/styles';
+import { Grid, Button, TextField } from "@mui/material";
 
-const useAuthFormStyles = makeStyles((theme) => ({
-    form: {
-      width: "100%", // Fix IE 11 issue.
-    },
-}))
-
-const AuthForm = ({ handelAccount, handelLogin }) => {
-    const classes = useAuthFormStyles();
-    
+const RenderTextField = ({ name, label, handlerInput }) => {
     return (
-        <form className={classes.form} noValidate>
-            <TextField
-                onChange={(event) => handelAccount("username", event)}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoFocus
-            />
-            <TextField
-                onChange={(event) => handelAccount("password", event)}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-            />
+        <TextField
+            margin="dense"
+            variant="outlined"
+            required
+            label={label}
+            onChange={handlerInput}
+            name={name}
+            id={name}
+            type={label === "Password" ? "password" : "text"}
+            fullWidth
+        />
+    );
+};
+
+const AuthForm = ({ handlerInput, handelLogin, isNewUser }) => {
+    return (
+        <form onSubmit={handelLogin}>
+            <Grid container spacing={2}>
+                {isNewUser && (
+                    <>
+                        <Grid item xs={12} sm={6}>
+                            <RenderTextField
+                                handlerInput={handlerInput}
+                                name="firstName"
+                                label="First Name"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <RenderTextField
+                                handlerInput={handlerInput}
+                                name="lastName"
+                                label="Last Name"
+                            />
+                        </Grid>
+                    </>
+                )}
+                <Grid item xs={12}>
+                    <RenderTextField
+                        handlerInput={handlerInput}
+                        name="email"
+                        label="Email Address"
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <RenderTextField
+                        handlerInput={handlerInput}
+                        name="password"
+                        label="Password"
+                    />
+                </Grid>
+            </Grid>
             <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
-                className={classes.submit}
-                onClick={handelLogin}
+                sx={{ margin: "1em 0" }}
             >
-                Sign In
+                {isNewUser ? "Sign Up" : "Sign In"}
             </Button>
-            <Grid container>
-                <Grid item>
-                    <Link href="#" variant="body2">
-                        {"Don't have an account? Sign Up"}
-                    </Link>
-                </Grid>
-            </Grid>
         </form>
     );
 };
