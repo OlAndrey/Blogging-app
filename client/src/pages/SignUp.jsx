@@ -1,76 +1,78 @@
-import React, { useState } from "react";
-import { Grid, Avatar, Link, Typography } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import AuthForm from "../components/AuthForm";
-import AuthContainer from "../components/AuthContainer";
-import { users } from "../const/users";
-import { useCheckAuthError } from "../hooks/useCheckAuthError";
+import React from 'react'
+import { connect } from 'react-redux'
+import { Grid, Avatar, Link, Typography } from '@mui/material'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import AuthForm from '../components/AuthForm'
+import AuthContainer from '../components/AuthContainer'
+import { users } from '../const/users'
+import {
+  changeInput,
+  checkAuthError,
+  setAuthError
+} from '../store/actionts/auth'
 
-const SignUp = (props) => {
-    const init = {
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: ""
-    };
-    const [account, setAccount] = useState(init);
-    const [error, setError, checkError] = useCheckAuthError(init);
+const SignUp = ({
+  inputs,
+  errors,
+  changeInput,
+  checkAuthError,
+  setAuthError
+}) => {
+  const isRegistryUser = (email) => {
+    return users.find((user) => user.email === email)
+  }
 
-    const handlerInput = (event) => {
-        const { name, value } = event.target;
-        const accountCopy = {
-            ...account
-        };
-        accountCopy[name] = value;
+  const handelLogin = (event) => {
+    event.preventDefault()
+    if (!Object.values(inputs).find((item) => item === '')) {
+      if (!isRegistryUser(inputs.email)) {
+        users.push(inputs)
+      } else
+        setAuthError(
+          'email',
+          'The email address is already in use by another account'
+        )
+    }
+  }
 
-        setAccount(accountCopy);
-    };
+  return (
+    <AuthContainer>
+      <Avatar>
+        <LockOutlinedIcon />
+      </Avatar>
+      <Typography component="h1" variant="h5">
+        Sign up
+      </Typography>
 
-    const isRegistryUser = (email) => {
-        return users.find((user) => user.email === email);
-    };
+      <AuthForm
+        isNewUser={true}
+        error={errors}
+        handelLogin={handelLogin}
+        handlerInput={changeInput}
+        values={inputs}
+        checkError={checkAuthError}
+      />
 
-    const handelLogin = (event) => {
-        event.preventDefault();
-        if (Object.values(account).find((item) => item === "")) {
-            if (!isRegistryUser(account.email)) {
-                users.push(account);
-                setAccount(init);
-            } else
-                setError({
-                    ...error,
-                    email: "The email address is already in use by another account"
-                });
-        }
-    };
+      <Grid container justify="flex-end">
+        <Grid item>
+          <Link href="/" variant="body2">
+            Already have an account? Sign in
+          </Link>
+        </Grid>
+      </Grid>
+    </AuthContainer>
+  )
+}
 
-    return (
-        <AuthContainer>
-            <Avatar>
-                <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-                Sign up
-            </Typography>
+const mapStateToProps = (state) => {
+  return {
+    inputs: state.auth.inputs,
+    errors: state.auth.errorInputs
+  }
+}
 
-            <AuthForm
-                isNewUser={true}
-                error={error}
-                values={account}
-                handelLogin={handelLogin}
-                handlerInput={handlerInput}
-                checkError={(e) => checkError(e.target.name, e.target.value)}
-            />
-
-            <Grid container justify="flex-end">
-                <Grid item>
-                    <Link href="/" variant="body2">
-                        Already have an account? Sign in
-                    </Link>
-                </Grid>
-            </Grid>
-        </AuthContainer>
-    );
-};
-
-export default SignUp;
+export default connect(mapStateToProps, {
+  changeInput,
+  checkAuthError,
+  setAuthError
+})(SignUp)
