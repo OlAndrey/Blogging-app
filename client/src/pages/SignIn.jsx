@@ -4,38 +4,12 @@ import { Grid, Avatar, Link, Typography } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import AuthForm from '../components/AuthForm'
 import AuthContainer from '../components/AuthContainer'
-import {
-  changeInput,
-  checkAuthError,
-  setAuthError,
-  selectionUser
-} from '../store/actionts/auth'
-import { users } from '../const/users'
+import { login } from '../store/actionts/auth'
 
-const SignIn = ({
-  inputs,
-  errors,
-  changeInput,
-  checkAuthError,
-  setAuthError,
-  selectionUser
-}) => {
-  const isVarifiedUser = (email, password) => {
-    return users.find(
-      (user) => user.email === email && user.password === password
-    )
-  }
-
-  const handelLogin = (event) => {
+const SignIn = ({ login }) => {
+  const handelLogin = (event, inputs) => {
     event.preventDefault()
-    const user = isVarifiedUser(inputs.email, inputs.password)
-    if (user) {
-        console.log(user)
-      selectionUser(user)
-    } else {
-      setAuthError('password', 'Email or password is incorrect!!!')
-      setAuthError('email', 'Email or password is incorrect!!!')
-    }
+    login(inputs)
   }
 
   return (
@@ -46,13 +20,7 @@ const SignIn = ({
       <Typography component="h1" variant="h5">
         Sign in
       </Typography>
-      <AuthForm
-        error={errors}
-        handelLogin={handelLogin}
-        handlerInput={changeInput}
-        values={inputs}
-        checkError={checkAuthError}
-      />
+      <AuthForm handelLogin={handelLogin} />
       <Grid container>
         <Grid item>
           <Link href="/registration" variant="body2">
@@ -64,16 +32,6 @@ const SignIn = ({
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    inputs: state.auth.inputs,
-    errors: state.auth.errorInputs
-  }
-}
-
-export default connect(mapStateToProps, {
-  changeInput,
-  checkAuthError,
-  setAuthError,
-  selectionUser
+export default connect((state) => ({}), {
+  login
 })(SignIn)

@@ -1,38 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Grid, Avatar, Link, Typography } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import AuthForm from '../components/AuthForm'
 import AuthContainer from '../components/AuthContainer'
-import { users } from '../const/users'
-import {
-  changeInput,
-  checkAuthError,
-  setAuthError
-} from '../store/actionts/auth'
+import { register } from '../store/actionts/auth'
 
-const SignUp = ({
-  inputs,
-  errors,
-  changeInput,
-  checkAuthError,
-  setAuthError
-}) => {
-  const isRegistryUser = (email) => {
-    return users.find((user) => user.email === email)
-  }
-
-  const handelLogin = (event) => {
+const SignUp = ({ register }) => {
+  const navigate = useNavigate()
+  const handelLogin = (event, inputs) => {
     event.preventDefault()
-    if (!Object.values(inputs).find((item) => item === '')) {
-      if (!isRegistryUser(inputs.email)) {
-        users.push(inputs)
-      } else
-        setAuthError(
-          'email',
-          'The email address is already in use by another account'
-        )
-    }
+    register(inputs).then((data) => {
+      if(data) navigate('/')
+    })
   }
 
   return (
@@ -44,14 +25,7 @@ const SignUp = ({
         Sign up
       </Typography>
 
-      <AuthForm
-        isNewUser={true}
-        error={errors}
-        handelLogin={handelLogin}
-        handlerInput={changeInput}
-        values={inputs}
-        checkError={checkAuthError}
-      />
+      <AuthForm isNewUser={true} handelLogin={handelLogin} />
 
       <Grid container justify="flex-end">
         <Grid item>
@@ -64,15 +38,4 @@ const SignUp = ({
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    inputs: state.auth.inputs,
-    errors: state.auth.errorInputs
-  }
-}
-
-export default connect(mapStateToProps, {
-  changeInput,
-  checkAuthError,
-  setAuthError
-})(SignUp)
+export default connect((state) => ({}), { register })(SignUp)
