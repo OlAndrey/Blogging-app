@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux'
-import { Grid, Button, TextField, Alert } from '@mui/material'
-import { changeInput, checkAuthError } from '../store/actionts/auth'
+import { Grid, Button, TextField, Alert, Slide } from '@mui/material'
+import { changeInput, checkAuthError, setAlert } from '../store/actionts/auth'
+import { Box } from '@mui/system'
 
 const RenderTextField = ({
   name,
@@ -36,18 +37,46 @@ const AuthForm = ({
   values,
   errors,
   alert,
+  setAlert,
   changeInput,
   checkAuthError,
   handelLogin
 }) => {
+  const [alertVisibility, setAlertVisibility] = useState(false)
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    if (alert) {
+      setAlertVisibility(true)
+      setTimeout(() => setAlertVisibility(false), 4000)
+      setTimeout(() => setAlert(null), 5000)
+    }
+  }, [alert])
+
   return (
     <>
-      {alert && (
-        <Alert severity={alert.type.toLowerCase()} sx={{ width: '100%', margin: '1em 0' }}>
-          {alert.message}
-        </Alert>
-      )}
-      <form onSubmit={(event) => handelLogin(event, values)}>
+      <form onSubmit={(event) => handelLogin(event, values)} ref={containerRef}>
+        <Slide
+          direction="down"
+          timeout={1000}
+          in={alertVisibility}
+          container={containerRef.current}
+        >
+          {alert ? (
+            <Alert
+              severity={alert.type.toLowerCase()}
+              sx={{
+                width: '100%',
+                margin: '.75em 0',
+                zIndex: 1
+              }}
+            >
+              {alert.message}
+            </Alert>
+          ) : (
+            <Box sx={{ height: '2.75em' }}></Box>
+          )}
+        </Slide>
         <Grid container spacing={2}>
           {isNewUser && (
             <>
@@ -120,5 +149,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   changeInput,
-  checkAuthError
+  checkAuthError,
+  setAlert
 })(AuthForm)

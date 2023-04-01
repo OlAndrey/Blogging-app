@@ -77,7 +77,7 @@ const setToken = (token) => {
   }
 }
 
-const setAlert = (payload) => {
+export const setAlert = (payload) => {
   return {
     type: AUTH.SET_ALERT,
     payload
