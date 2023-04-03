@@ -50,6 +50,8 @@ const PostsList = (props) => {
             <Link
               href={'/edit/' + props.article.id}
               className={classes['link-info']}
+              sx={{ color: 'white' }}
+              underline='none'
             >
               Edit Article
             </Link>

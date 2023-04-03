@@ -1,20 +1,45 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Home from './pages/Home'
+import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp'
+import { getMe } from './store/actionts/auth'
 
-function App() {
+
+function App({ user, token, getMe }) {
+  useEffect(() => {
+    const token = window.localStorage.getItem('userToken')
+    if (token) {
+      getMe(token)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (token) {
+      window.localStorage.setItem('userToken', token)
+    }
+  }, [token])
+
   return (
-    
     <BrowserRouter>
       <Routes>
         <Route path="/registration" element={<SignUp />} />
-        <Route path='/login' element={<SignIn />} />
-        <Route path='/' element={<Home />} />
+        <Route path="/login" element={<SignIn />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+const MemoApp = React.memo(App)
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.auth.user,
+    token: state.auth.token
+  }
+}
+
+
+export default connect(mapStateToProps, { getMe })(MemoApp)

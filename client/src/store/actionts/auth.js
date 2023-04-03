@@ -1,5 +1,5 @@
 import AUTH from '../../types/auth'
-import { postRequest } from '../API/authAPI'
+import { getUserRequest, postRequest } from '../API/authAPI'
 
 export const changeInput = (event) => {
   const { name, value } = event.target
@@ -97,7 +97,9 @@ export const register = (account) => async (dispatch) => {
     return await postRequest('/api/registration', account).then(async (res) => {
       const json = await res.json()
       if (res.status === 200) {
-        dispatch(setAlert({ type: 'Success', message: 'Account has been registered!' }))
+        dispatch(
+          setAlert({ type: 'Success', message: 'Account has been registered!' })
+        )
         return json
       }
       if (res.status === 406) {
@@ -134,6 +136,28 @@ export const login = (account) => async (dispatch) => {
   } catch (error) {
     console.error(error)
     dispatch(setAlert({ type: error.name, message: error.message }))
+  } finally {
+    dispatch(setLoading(false))
+  }
+}
+
+export const getMe = (token) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true))
+
+    await getUserRequest('/api/me', {
+      authorization: token
+    }).then(async (res) => {
+      const json = await res.json()
+      if (res.status === 200) {
+        dispatch(selectionUser(json.user))
+        dispatch(setToken(json.token))
+      } else {
+        throw Error(json.message)
+      }
+    })
+  } catch (error) {
+    console.error(error)
   } finally {
     dispatch(setLoading(false))
   }
