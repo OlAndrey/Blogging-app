@@ -5,7 +5,7 @@ import Home from './pages/Home'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import { getMe } from './store/actionts/auth'
-
+import Header from './components/HeaderContainer'
 
 function App({ user, token, getMe }) {
   useEffect(() => {
@@ -23,6 +23,7 @@ function App({ user, token, getMe }) {
 
   return (
     <BrowserRouter>
+      <Header isLoggingUser={!!user} />
       <Routes>
         <Route path="/registration" element={<SignUp />} />
         <Route path="/login" element={<SignIn />} />
@@ -40,6 +41,5 @@ const mapStateToProps = (state) => {
     token: state.auth.token
   }
 }
-
 
 export default connect(mapStateToProps, { getMe })(MemoApp)

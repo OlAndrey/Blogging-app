@@ -8,7 +8,12 @@ const PostsList = (props) => {
   return (
     <Paper
       variant="outlined"
-      sx={{ width: '100%', margin: '.5em', padding: '.75em' }}
+      sx={{
+        width: 'calc(100% - 0.5em)',
+        boxSizing: 'border-box',
+        margin: '.5em',
+        padding: '.75em'
+      }}
     >
       <Link
         href={'/post/' + props.article._id}
@@ -51,13 +56,17 @@ const PostsList = (props) => {
               href={'/edit/' + props.article.id}
               className={classes['link-info']}
               sx={{ color: 'white' }}
-              underline='none'
+              underline="none"
             >
               Edit Article
             </Link>
           </Grid>
           <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
-            <Button variant="contained" color="error">
+            <Button
+              variant="contained"
+              color="error"
+              sx={{ padding: { xs: '6px 6px', sm: '6px 16px' } }}
+            >
               Delete Article
             </Button>
           </Grid>

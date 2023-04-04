@@ -5,7 +5,7 @@ import { Container } from '@mui/material'
 
 const Home = (props) => {
   return (
-    <Container fixed>
+    <Container fixed sx={{ padding: "4.5em 0 0 0"}}>
       {posts.map((post, key) => {
         return <PostsList own={true} key={key} article={post} />
       })}
