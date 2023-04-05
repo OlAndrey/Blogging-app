@@ -11,10 +11,11 @@ const error = (req, res) => {
 const register = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body
+    const fullName = firstName + ' ' + lastName
 
     const salt = 4
     const hash = await bcrypt.hash(password, salt)
-    const newUser = new User({ firstName, lastName, email, password: hash })
+    const newUser = new User({ fullName, email, password: hash })
     newUser
       .save()
       .then((user) => res.status(200).json(user))
@@ -79,7 +80,7 @@ const getMe = async (req, res) => {
     )
     res.status(200).json({ token, user })
   } catch (error) {
-    res.status(500).json({ message: 'No access' })
+    res.status(406).json({ message: 'No access' })
   }
 }
 
