@@ -1,7 +1,7 @@
 import AUTH from '../../types/auth'
 
 const init = {
-  user: {},
+  user: null,
   token: '',
   isLoading: false,
   alert: null,
