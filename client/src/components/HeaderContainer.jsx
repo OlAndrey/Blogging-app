@@ -5,12 +5,12 @@ const headersData = [
   {
     isNotSecure: true,
     label: 'Home',
-    href: '/'
+    href: '/home'
   },
   {
     isNotSecure: false,
     label: 'Home',
-    href: '/'
+    href: '/home'
   },
   {
     isNotSecure: false,
@@ -25,7 +25,8 @@ const headersData = [
   {
     isNotSecure: false,
     label: 'Log Out',
-    href: '/'
+    href: '#',
+    event: 'logout'
   },
   {
     isNotSecure: true,
@@ -34,7 +35,7 @@ const headersData = [
   }
 ]
 
-const HeaderContainer = ({ isLoggingUser }) => {
+const HeaderContainer = ({ isLoggingUser, events }) => {
   const [state, setState] = useState({
     mobileView: false,
     drawerOpen: false
@@ -63,6 +64,7 @@ const HeaderContainer = ({ isLoggingUser }) => {
       mobileView={mobileView}
       drawerOpen={drawerOpen}
       data={headersData}
+      events={events}
       changeState={setState}
     />
   )

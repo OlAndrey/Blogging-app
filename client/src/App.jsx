@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { getMe } from './store/actionts/auth'
+import { getMe, logout } from './store/actionts/auth'
 import Header from './components/HeaderContainer'
 import AppRouter from './components/AppRouter'
 
-function App({ user, token, getMe }) {
+function App({ user, token, getMe, logout }) {
   useEffect(() => {
     const token = window.localStorage.getItem('userToken')
     if (token) {
@@ -19,9 +19,14 @@ function App({ user, token, getMe }) {
     }
   }, [token])
 
+  const handlerLogout = () => {
+    window.localStorage.removeItem('userToken')
+    logout()
+  }
+
   return (
     <BrowserRouter>
-      <Header isLoggingUser={!!user} />
+      <Header isLoggingUser={!!user} events={{logout: handlerLogout}} />
       <AppRouter user={!!user} />
     </BrowserRouter>
   )
@@ -36,4 +41,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { getMe })(MemoApp)
+export default connect(mapStateToProps, { getMe, logout })(MemoApp)

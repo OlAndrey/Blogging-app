@@ -8,7 +8,6 @@ import {
   Link,
   MenuItem
 } from '@mui/material'
-//   import {MenuIcon} from "@mui/icons";
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { Menu as MenuIcon } from '@mui/icons-material'
@@ -19,7 +18,8 @@ const Header = ({
   mobileView,
   drawerOpen,
   data,
-  changeState
+  changeState,
+  events
 }) => {
   const { header, logo, toolbar, drawerContainer } = useHeaderStyles()
 
@@ -69,8 +69,8 @@ const Header = ({
 
   const getDrawerChoices = () => {
     return data
-      .filter((el) => isLoggingUser? !el.isNotSecure : el.isNotSecure)
-      .map(({ label, href }) => {
+      .filter((el) => (isLoggingUser ? !el.isNotSecure : el.isNotSecure))
+      .map(({ label, href, event }) => {
         return (
           <Link
             {...{
@@ -81,7 +81,7 @@ const Header = ({
               key: label
             }}
           >
-            <MenuItem>{label}</MenuItem>
+            <MenuItem onClick={events[event]}>{label}</MenuItem>
           </Link>
         )
       })
@@ -89,7 +89,7 @@ const Header = ({
 
   const femmecubatorLogo = (
     <Typography variant="h6" component="h1" className={logo}>
-      Femmecubator
+      Blogging App
     </Typography>
   )
 

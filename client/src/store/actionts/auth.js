@@ -141,6 +141,18 @@ export const login = (account) => async (dispatch) => {
   }
 }
 
+export const logout = () => async (dispatch) => {
+  try {
+    dispatch(setLoading(true))
+    dispatch(selectionUser(null))
+    dispatch(setToken(''))
+  } catch (error) {
+    console.error(error)
+  } finally {
+    dispatch(setLoading(false))
+  }
+}
+
 export const getMe = (token) => async (dispatch) => {
   try {
     dispatch(setLoading(true))
