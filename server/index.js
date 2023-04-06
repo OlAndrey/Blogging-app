@@ -4,6 +4,7 @@ const dotenv = require('dotenv')
 const cors = require('cors')
 const authRoute = require('./routes/auth')
 const postRoute = require('./routes/post')
+const fileUpload = require('express-fileupload')
 
 const server = express()
 dotenv.config()
@@ -17,7 +18,11 @@ server.use(
     origin: ['http://localhost:3000', 'http://localhost:1234']
   })
 )
+
+// server.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
+server.use(fileUpload())
 server.use(express.json())
+server.use(express.static('uploads'))
 server.use('/api/auth', authRoute)
 server.use('/api/post', postRoute)
 

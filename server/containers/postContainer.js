@@ -8,8 +8,8 @@ const createPost = async (req, res) => {
     const user = await User.findById(req.userId)
 
     if (req.files) {
-      const fileName = Date.now().toString() + req.files.image.name
-      req.files.image.mv(path.join(__dirname, '..', 'uploads', fileName))
+      const fileName = Date.now().toString() + req.files.file.name
+      req.files.file.mv(path.join(__dirname, '..', 'uploads', fileName))
 
       const newPostWithImage = new Post({
         fullName: user.fullName,
