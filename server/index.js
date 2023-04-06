@@ -1,8 +1,9 @@
 const express = require('express')
 const { mongoose } = require('mongoose')
+const dotenv = require('dotenv')
 const cors = require('cors')
 const authRoute = require('./routes/auth')
-const dotenv = require('dotenv')
+const postRoute = require('./routes/post')
 
 const server = express()
 dotenv.config()
@@ -17,7 +18,8 @@ server.use(
   })
 )
 server.use(express.json())
-server.use(authRoute)
+server.use('/api/auth', authRoute)
+server.use('/api/post', postRoute)
 
 // Server Setup
 const start = async () => {
