@@ -51,6 +51,7 @@ const AuthForm = ({
       setTimeout(() => setAlertVisibility(false), 4000)
       setTimeout(() => setAlert(null), 5000)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alert])
 
   return (

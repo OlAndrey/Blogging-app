@@ -16,3 +16,14 @@ code {
   height: 100vh;
   /* display: flex; */
 }
+
+.select-photo{
+  display: block;
+  width: 12em;
+  margin: 0 auto;
+}
+.previev-img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}

@@ -4,13 +4,14 @@ export const postRequest = (restUrl, body) => {
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      authorization: window.localStorage.getItem('userToken')
     },
     body: JSON.stringify(body)
   })
 }
 
-export const getUserRequest = (restUrl, headers) => {
+export const getUserRequest = (restUrl) => {
   const url = 'http://localhost:5000' + restUrl
 
   return fetch(url, {
@@ -18,7 +19,7 @@ export const getUserRequest = (restUrl, headers) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      ...headers
+      authorization: window.localStorage.getItem('userToken')
     }
   })
 }

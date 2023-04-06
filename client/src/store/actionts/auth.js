@@ -94,20 +94,25 @@ export const selectionUser = (user) => {
 export const register = (account) => async (dispatch) => {
   try {
     dispatch(setLoading(true))
-    return await postRequest('/api/registration', account).then(async (res) => {
-      const json = await res.json()
-      if (res.status === 200) {
-        dispatch(
-          setAlert({ type: 'Success', message: 'Account has been registered!' })
-        )
-        return json
+    return await postRequest('/api/auth/registration', account).then(
+      async (res) => {
+        const json = await res.json()
+        if (res.status === 200) {
+          dispatch(
+            setAlert({
+              type: 'Success',
+              message: 'Account has been registered!'
+            })
+          )
+          return json
+        }
+        if (res.status === 406) {
+          dispatch(setAuthError('email', json.message))
+          return
+        }
+        throw Error(json.message)
       }
-      if (res.status === 406) {
-        dispatch(setAuthError('email', json.message))
-        return
-      }
-      throw Error(json.message)
-    })
+    )
   } catch (error) {
     console.error(error)
     dispatch(setAlert({ type: error.name, message: error.message }))
@@ -119,7 +124,7 @@ export const register = (account) => async (dispatch) => {
 export const login = (account) => async (dispatch) => {
   try {
     dispatch(setLoading(true))
-    await postRequest('/api/login', account).then(async (res) => {
+    await postRequest('/api/auth/login', account).then(async (res) => {
       const json = await res.json()
       if (res.status === 200) {
         dispatch(selectionUser(json.user))
@@ -157,9 +162,7 @@ export const getMe = (token) => async (dispatch) => {
   try {
     dispatch(setLoading(true))
 
-    await getUserRequest('/api/me', {
-      authorization: token
-    }).then(async (res) => {
+    await getUserRequest('/api/auth/me').then(async (res) => {
       const json = await res.json()
       if (res.status === 200) {
         dispatch(selectionUser(json.user))

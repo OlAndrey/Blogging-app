@@ -6,6 +6,7 @@ import AuthForm from '../components/AuthForm'
 import AuthContainer from '../components/AuthContainer'
 import { login } from '../store/actionts/auth'
 import { useAuthStyles } from '../styles/authStyles'
+import { REGISTRATION_ROUTE } from '../utils/const'
 
 const SignIn = ({ login }) => {
   const classes = useAuthStyles()
@@ -28,7 +29,7 @@ const SignIn = ({ login }) => {
       <AuthForm handelLogin={handelLogin} />
       <Grid container>
         <Grid item>
-          <Link href="/registration" variant="body2">
+          <Link href={REGISTRATION_ROUTE} variant="body2">
             {"Don't have an account? Sign Up"}
           </Link>
         </Grid>

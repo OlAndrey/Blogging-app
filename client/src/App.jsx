@@ -6,11 +6,13 @@ import Header from './components/HeaderContainer'
 import AppRouter from './components/AppRouter'
 
 function App({ user, token, getMe, logout }) {
+
   useEffect(() => {
     const token = window.localStorage.getItem('userToken')
     if (token) {
       getMe(token)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

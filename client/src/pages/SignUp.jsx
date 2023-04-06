@@ -8,6 +8,7 @@ import AuthContainer from '../components/AuthContainer'
 import { register } from '../store/actionts/auth'
 import { Box } from '@mui/system'
 import { useAuthStyles } from '../styles/authStyles'
+import { LOGIN_ROUTE } from '../utils/const'
 
 const SignUp = ({ register }) => {
   const classes = useAuthStyles()
@@ -15,7 +16,7 @@ const SignUp = ({ register }) => {
   const handelLogin = (event, inputs) => {
     event.preventDefault()
     register(inputs).then((data) => {
-      if (data) navigate('/')
+      if (data) navigate(LOGIN_ROUTE)
     })
   }
 
@@ -33,7 +34,7 @@ const SignUp = ({ register }) => {
 
       <Grid container justify="flex-end">
         <Grid item>
-          <Link href="/" variant="body2">
+          <Link href={LOGIN_ROUTE} variant="body2">
             Already have an account? Sign in
           </Link>
         </Grid>
