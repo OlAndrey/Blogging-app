@@ -1,5 +1,6 @@
 import AUTH from '../../types/auth'
-import { getUserRequest, postRequest } from '../API/authAPI'
+import axios from '../../utils/axios'
+import { getMeEndpoint, loginEndpoint, registryEndpoint } from '../API/endpoints'
 
 export const changeInput = (event) => {
   const { name, value } = event.target
@@ -94,9 +95,9 @@ export const selectionUser = (user) => {
 export const register = (account) => async (dispatch) => {
   try {
     dispatch(setLoading(true))
-    return await postRequest('/api/auth/registration', account).then(
+    return await axios.post(registryEndpoint, account).then(
       async (res) => {
-        const json = await res.json()
+        const json = res.data
         if (res.status === 200) {
           dispatch(
             setAlert({
@@ -124,8 +125,8 @@ export const register = (account) => async (dispatch) => {
 export const login = (account) => async (dispatch) => {
   try {
     dispatch(setLoading(true))
-    await postRequest('/api/auth/login', account).then(async (res) => {
-      const json = await res.json()
+    await axios.post(loginEndpoint, account).then(async (res) => {
+      const json = res.data
       if (res.status === 200) {
         dispatch(selectionUser(json.user))
         dispatch(setToken(json.token))
@@ -162,8 +163,8 @@ export const getMe = (token) => async (dispatch) => {
   try {
     dispatch(setLoading(true))
 
-    await getUserRequest('/api/auth/me').then(async (res) => {
-      const json = await res.json()
+    await axios.get(getMeEndpoint).then(async (res) => {
+      const json = res.data
       if (res.status === 200) {
         dispatch(selectionUser(json.user))
         dispatch(setToken(json.token))
