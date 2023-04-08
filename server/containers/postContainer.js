@@ -45,4 +45,26 @@ const createPost = async (req, res) => {
   }
 }
 
-module.exports = { createPost }
+const getAllPosts = async (req, res) => {
+  const { page = 1, limit = 10 } = req.query
+
+  try {
+    const posts = await Post.find()
+      .limit(limit * 1)
+      .sort('-createdAt')
+      .skip((page - 1) * limit)
+      .exec()
+
+    const count = await Post.countDocuments()
+
+    res.json({
+      posts,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page
+    })
+  } catch (err) {
+    res.status(500).json({ message: 'failed to get posts' })
+  }
+}
+
+module.exports = { createPost, getAllPosts }
