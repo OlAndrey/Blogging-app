@@ -17,7 +17,7 @@ export const changeInputPost = (event) => {
   }
 }
 
-const clearPostForm = () => {
+export const clearPostForm = () => {
   return {
     type: POSTS.CLEAR_POST_FORM
   }
@@ -50,7 +50,7 @@ export const createPost = (postData) => async (dispatch) => {
     })
   } catch (error) {
     console.error(error)
-    dispatch(setAlertPost({ type: error.name, message: error.message }))
+    dispatch(setAlertPost({ type: 'Error', message: error?.response?.data?.message }))
   } finally {
     dispatch(setLoadingPost(false))
   }

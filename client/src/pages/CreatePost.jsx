@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import PostForm from '../components/PostForm'
-import { createPost } from '../store/actionts/posts'
+import { clearPostForm, createPost } from '../store/actionts/posts'
 
 const CreatePostPage = () => {
   const navigate = useNavigate()
@@ -17,7 +17,12 @@ const CreatePostPage = () => {
     }
   }
 
-  return <PostForm onSubmit={handleBlogCreateConfirm} />
+  const handleCancelConfirm = () => {
+    dispatch(clearPostForm())
+    navigate('/home')
+  }
+
+  return <PostForm onSubmit={handleBlogCreateConfirm} onCancel={handleCancelConfirm} />
 }
 
 export default CreatePostPage
