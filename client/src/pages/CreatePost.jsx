@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import PostForm from '../components/PostForm'
-import { clearPostForm, createPost } from '../store/actionts/posts'
+import { clearPostForm, createPost } from '../store/actionts/postForm'
 
 const CreatePostPage = () => {
   const navigate = useNavigate()

@@ -13,7 +13,7 @@ import {
   Slide,
   TextField
 } from '@mui/material'
-import { changeInputPost, setAlertPost } from '../store/actionts/posts'
+import { changeInputPost, setAlertPost } from '../store/actionts/postForm'
 
 const PostForm = ({
   isLoading,
@@ -154,9 +154,9 @@ const PostForm = ({
 
 const mapStateToProps = (state) => {
   return {
-    isLoading: state.posts.isLoading,
-    alert: state.posts.alert,
-    data: state.posts.inputs
+    isLoading: state.postForm.isLoading,
+    alert: state.postForm.alert,
+    data: state.postForm.inputs
   }
 }
 

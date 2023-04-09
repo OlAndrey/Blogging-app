@@ -23,7 +23,15 @@ const PostsList = (props) => {
       >
         {props.article.title}
       </Link>
-      <Typography variant="body1">{props.article.paragraph}</Typography>
+      <Typography variant="body1">{props.article.text}</Typography>
+      {props.article.imgUrl && (
+        <img
+          src={`http://localhost:5000/${props.article.imgUrl}`}
+          alt="post image"
+          className="article-img"
+        />
+      )}
+
       <Grid
         container
         rowSpacing={1}
@@ -32,15 +40,14 @@ const PostsList = (props) => {
         alignItems={'center'}
       >
         <Grid item xs={6}>
-          <Typography variant="h6">{props.article.author}</Typography>
+          <Typography variant="h6">{props.article.fullName}</Typography>
         </Grid>
         <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
           <Typography variant="body1">
-            {props.article.createdAt.toLocaleDateString()}
+            {new Date(props.article.createdAt).toLocaleDateString()}
           </Typography>
         </Grid>
       </Grid>
-
       {!props.own ? (
         ''
       ) : (
@@ -53,7 +60,7 @@ const PostsList = (props) => {
         >
           <Grid item xs={6}>
             <Link
-              href={'/edit/' + props.article.id}
+              href={'/edit/' + props.article._id}
               className={classes['link-info']}
               sx={{ color: 'white' }}
               underline="none"

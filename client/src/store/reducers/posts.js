@@ -1,7 +1,7 @@
 import POSTS from '../../types/posts'
 
 const init = {
-  isLoading: true,
+  isLoading: false,
   posts: []
 }
 
