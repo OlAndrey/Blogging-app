@@ -2,6 +2,8 @@ import POSTS from '../../types/posts'
 
 const init = {
   isLoading: false,
+  totalPages: 0,
+  currentPage: 0,
   posts: []
 }
 
@@ -11,6 +13,18 @@ const postsReduce = (state = init, action) => {
       return {
         ...state,
         isLoading: action.payload
+      }
+
+    case POSTS.SET_TOTAL_PAGES:
+      return {
+        ...state,
+        totalPages: action.payload
+      }
+
+    case POSTS.SET_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload
       }
 
     case POSTS.ADD_POSTS:

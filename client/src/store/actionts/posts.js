@@ -16,6 +16,20 @@ const setPosts = (posts) => {
     }
 }
 
+const setTotalPages = (number) => {
+    return{
+        type: POSTS.SET_TOTAL_PAGES,
+        payload: +number
+    }
+}
+
+const setCurrentPage = (number) => {
+    return{
+        type: POSTS.SET_CURRENT_PAGE,
+        payload: +number
+    }
+}
+
 const addPosts = (posts) => {
     return{
         type: POSTS.ADD_POSTS,
@@ -30,6 +44,8 @@ export const getSomePosts = () => async (dispatch) => {
         const json = res.data
         if (res.status === 200) {
           dispatch(setPosts(json.posts))
+          dispatch(setCurrentPage(json.currentPage))
+          dispatch(setTotalPages(json.totalPages))
           return json
         }
         throw Error(json.message)
@@ -48,6 +64,7 @@ export const getMorePosts = (page = 1) => async (dispatch) => {
         const json = res.data
         if (res.status === 200) {
           dispatch(addPosts(json.posts))
+          dispatch(setCurrentPage(json.currentPage))
           return json
         }
         throw Error(json.message)
