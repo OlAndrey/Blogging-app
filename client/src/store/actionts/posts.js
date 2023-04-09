@@ -1,27 +1,6 @@
 import POSTS from '../../types/posts'
 import axios from '../../utils/axios'
-import { createPostEndpoint } from '../API/endpoints'
-
-export const changeInputPost = (event) => {
-  const name = event.target.name
-  let value = null
-
-  if (event.target.type === 'file') value = event.target.files[0]
-  else value = event.target.value
-
-  return {
-    type: POSTS.CHANGE_INPUT,
-    payload: {
-      [name]: value
-    }
-  }
-}
-
-export const clearPostForm = () => {
-  return {
-    type: POSTS.CLEAR_POST_FORM
-  }
-}
+import { getAllPostsEndpoint } from '../API/endpoints'
 
 const setLoadingPost = (payload) => {
   return {
@@ -30,28 +9,52 @@ const setLoadingPost = (payload) => {
   }
 }
 
-export const setAlertPost = (payload) => {
-  return {
-    type: POSTS.SET_ALERT,
-    payload
-  }
+const setPosts = (posts) => {
+    return{
+        type: POSTS.SET_POSTS,
+        payload: posts
+    }
 }
 
-export const createPost = (postData) => async (dispatch) => {
-  try {
-    dispatch(setLoadingPost(true))
-    return await axios.post(createPostEndpoint, postData).then(async (res) => {
-      const json = res.data
-      if (res.status === 200) {
-        dispatch(clearPostForm())
-        return json
-      }
-      throw Error(json.message)
-    })
-  } catch (error) {
-    console.error(error)
-    dispatch(setAlertPost({ type: 'Error', message: error?.response?.data?.message }))
-  } finally {
-    dispatch(setLoadingPost(false))
-  }
+const addPosts = (posts) => {
+    return{
+        type: POSTS.ADD_POSTS,
+        payload: posts
+    }
 }
+
+export const getSomePosts = () => async (dispatch) => {
+    try {
+      dispatch(setLoadingPost(true))
+      return await axios.get(getAllPostsEndpoint(1)).then(async (res) => {
+        const json = res.data
+        if (res.status === 200) {
+          dispatch(setPosts(json.posts))
+          return json
+        }
+        throw Error(json.message)
+      })
+    } catch (error) {
+      console.error(error)
+    } finally {
+      dispatch(setLoadingPost(false))
+    }
+  }
+  
+export const getMorePosts = (page = 1) => async (dispatch) => {
+    try {
+      dispatch(setLoadingPost(true))
+      return await axios.get(getAllPostsEndpoint(page)).then(async (res) => {
+        const json = res.data
+        if (res.status === 200) {
+          dispatch(addPosts(json.posts))
+          return json
+        }
+        throw Error(json.message)
+      })
+    } catch (error) {
+      console.error(error)
+    } finally {
+      dispatch(setLoadingPost(false))
+    }
+  }
