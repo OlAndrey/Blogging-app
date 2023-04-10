@@ -74,10 +74,10 @@ const Home = ({
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
-    isLoading: state.posts.isLoading,
-    totalPages: state.posts.totalPages,
-    currentPage: state.posts.currentPage,
-    posts: state.posts.posts
+    isLoading: state.postList.isLoading,
+    totalPages: state.postList.totalPages,
+    currentPage: state.postList.currentPage,
+    posts: state.postList.postList
   }
 }
 

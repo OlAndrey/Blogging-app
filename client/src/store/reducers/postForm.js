@@ -1,4 +1,4 @@
-import POSTS from '../../types/posts'
+import { POST_FORM } from '../../types/posts'
 
 const init = {
   isLoading: false,
@@ -12,13 +12,13 @@ const init = {
 
 const postFormReduce = (state = init, action) => {
   switch (action.type) {
-    case POSTS.CHANGE_INPUT:
+    case POST_FORM.CHANGE_INPUT:
       return {
         ...state,
         inputs: Object.assign({}, state.inputs, action.payload)
       }
 
-    case POSTS.CLEAR_POST_FORM:
+    case POST_FORM.CLEAR:
       return {
         ...state,
         inputs: {
@@ -28,13 +28,13 @@ const postFormReduce = (state = init, action) => {
         }
       }
 
-    case POSTS.SET_ALERT:
+    case POST_FORM.SET_ALERT:
       return {
         ...state,
         alert: action.payload
       }
 
-    case POSTS.FORM_LOADING:
+    case POST_FORM.LOADING:
       return {
         ...state,
         isLoading: action.payload

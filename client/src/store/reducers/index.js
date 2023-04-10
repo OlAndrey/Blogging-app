@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux'
 import authReduce from './auth'
-import postsReduce from './posts'
+import postListReduce from './postList'
 import postFormReduce from './postForm'
+import selectedPostReduce from './selectedPost'
 
 const rootReducer = combineReducers({
   auth: authReduce,
   postForm: postFormReduce,
-  posts: postsReduce
+  postList: postListReduce,
+  selectedPost: selectedPostReduce
 })
 
 export default rootReducer

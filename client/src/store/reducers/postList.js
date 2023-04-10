@@ -1,42 +1,42 @@
-import POSTS from '../../types/posts'
+import { POST_LIST } from '../../types/posts'
 
 const init = {
   isLoading: false,
   totalPages: 0,
   currentPage: 0,
-  posts: []
+  postList: []
 }
 
-const postsReduce = (state = init, action) => {
+const postListReduce = (state = init, action) => {
   switch (action.type) {
-    case POSTS.LOADING:
+    case POST_LIST.LOADING:
       return {
         ...state,
         isLoading: action.payload
       }
 
-    case POSTS.SET_TOTAL_PAGES:
+    case POST_LIST.SET_TOTAL_PAGES:
       return {
         ...state,
         totalPages: action.payload
       }
 
-    case POSTS.SET_CURRENT_PAGE:
+    case POST_LIST.SET_CURRENT_PAGE:
       return {
         ...state,
         currentPage: action.payload
       }
 
-    case POSTS.ADD_POSTS:
+    case POST_LIST.ADD_POSTS:
       return {
         ...state,
-        posts: [...state.posts, ...action.payload]
+        postList: [...state.posts, ...action.payload]
       }
 
-    case POSTS.SET_POSTS:
+    case POST_LIST.SET_POSTS:
       return {
         ...state,
-        posts: [...action.payload]
+        postList: [...action.payload]
       }
 
     default:
@@ -44,4 +44,4 @@ const postsReduce = (state = init, action) => {
   }
 }
 
-export default postsReduce
+export default postListReduce

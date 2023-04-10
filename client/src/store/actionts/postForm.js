@@ -1,4 +1,4 @@
-import POSTS from '../../types/posts'
+import { POST_FORM } from '../../types/posts'
 import axios from '../../utils/axios'
 import { createPostEndpoint } from '../API/endpoints'
 
@@ -10,7 +10,7 @@ export const changeInputPost = (event) => {
   else value = event.target.value
 
   return {
-    type: POSTS.CHANGE_INPUT,
+    type: POST_FORM.CHANGE_INPUT,
     payload: {
       [name]: value
     }
@@ -19,20 +19,20 @@ export const changeInputPost = (event) => {
 
 export const clearPostForm = () => {
   return {
-    type: POSTS.CLEAR_POST_FORM
+    type: POST_FORM.CLEAR
   }
 }
 
 const setLoadingPost = (payload) => {
   return {
-    type: POSTS.FORM_LOADING,
+    type: POST_FORM.LOADING,
     payload
   }
 }
 
 export const setAlertPost = (payload) => {
   return {
-    type: POSTS.SET_ALERT,
+    type: POST_FORM.SET_ALERT,
     payload
   }
 }
@@ -50,7 +50,9 @@ export const createPost = (postData) => async (dispatch) => {
     })
   } catch (error) {
     console.error(error)
-    dispatch(setAlertPost({ type: 'Error', message: error?.response?.data?.message }))
+    dispatch(
+      setAlertPost({ type: 'Error', message: error?.response?.data?.message })
+    )
   } finally {
     dispatch(setLoadingPost(false))
   }
