@@ -1,9 +1,9 @@
 import React from 'react'
 import { Button, Grid, Link, Paper, Typography } from '@mui/material'
-import usePostListStyles from '../styles/postListStyles'
+import usePostStyles from '../styles/postStyles'
 
-const PostsList = (props) => {
-  const classes = usePostListStyles()
+const Post = ({ own, isSinglePost, article }) => {
+  const classes = usePostStyles()
 
   return (
     <Paper
@@ -15,18 +15,30 @@ const PostsList = (props) => {
         padding: '.75em'
       }}
     >
-      <Link
-        href={'/post/' + props.article._id}
-        underline="hover"
-        variant="h4"
-        color="black"
+      {isSinglePost ? (
+        <Typography variant="h4" component="h3">
+          {article.title}
+        </Typography>
+      ) : (
+        <Link
+          href={'/post/' + article._id}
+          underline="hover"
+          variant="h4"
+          color="black"
+        >
+          {article.title}
+        </Link>
+      )}
+
+      <Typography
+        variant="body1"
+        className={isSinglePost ? '' : classes.description}
       >
-        {props.article.title}
-      </Link>
-      <Typography variant="body1">{props.article.text}</Typography>
-      {props.article.imgUrl && (
+        {article.text}
+      </Typography>
+      {article.imgUrl && (
         <img
-          src={`http://localhost:5000/${props.article.imgUrl}`}
+          src={`http://localhost:5000/${article.imgUrl}`}
           alt="post image"
           className="article-img"
         />
@@ -40,15 +52,15 @@ const PostsList = (props) => {
         alignItems={'center'}
       >
         <Grid item xs={6}>
-          <Typography variant="h6">{props.article.fullName}</Typography>
+          <Typography variant="h6">{article.fullName}</Typography>
         </Grid>
         <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
           <Typography variant="body1">
-            {new Date(props.article.createdAt).toLocaleDateString()}
+            {new Date(article.createdAt).toLocaleDateString()}
           </Typography>
         </Grid>
       </Grid>
-      {!props.own ? (
+      {!own ? (
         ''
       ) : (
         <Grid
@@ -60,7 +72,7 @@ const PostsList = (props) => {
         >
           <Grid item xs={6}>
             <Link
-              href={'/edit/' + props.article._id}
+              href={'/edit/' + article._id}
               className={classes['link-info']}
               sx={{ color: 'white' }}
               underline="none"
@@ -83,4 +95,4 @@ const PostsList = (props) => {
   )
 }
 
-export default PostsList
+export default Post

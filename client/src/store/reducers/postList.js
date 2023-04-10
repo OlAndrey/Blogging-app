@@ -30,7 +30,7 @@ const postListReduce = (state = init, action) => {
     case POST_LIST.ADD_POSTS:
       return {
         ...state,
-        postList: [...state.posts, ...action.payload]
+        postList: [...state.postList, ...action.payload]
       }
 
     case POST_LIST.SET_POSTS:

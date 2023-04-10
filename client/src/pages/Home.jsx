@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
-import PostsList from '../components/PostsList'
 import { Container, Typography } from '@mui/material'
 import { getSomePosts, getMorePosts } from '../store/actionts/postList'
+import Post from '../components/Post'
 import Loading from '../components/Loading'
 import HelperMessage from '../components/HelperMessage'
 
@@ -51,7 +51,7 @@ const Home = ({
       {posts.length ? (
         posts.map((post, key) => {
           return (
-            <PostsList
+            <Post
               own={post.author === user._id}
               key={key}
               article={post}

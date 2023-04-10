@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Container, Typography } from '@mui/material'
 import { connect } from 'react-redux'
 import { selectPost } from '../store/actionts/post'
-import PostsList from '../components/PostsList'
+import Post from '../components/Post'
 import Loading from '../components/Loading'
 import HelperMessage from '../components/HelperMessage'
 
@@ -26,8 +26,7 @@ const View = ({ isLoading, isError, user, post, selectPost }) => {
           </Typography>
         </HelperMessage>
       ) : (
-        <PostsList 
-        own={post.author === user._id} article={post} />
+        <Post own={post.author === user._id} isSinglePost={true} article={post} />
       )}
     </Container>
   )

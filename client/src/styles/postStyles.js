@@ -1,6 +1,15 @@
 import { makeStyles } from '@mui/styles'
 
-const usePostListStyles = makeStyles((theme) => ({
+const usePostStyles = makeStyles((theme) => ({
+  description: {
+    display: '-webkit-box',
+    '-webkit-line-clamp': 3,
+    '-webkit-box-orient': 'vertical',
+    maxWidth: '100%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxHeight: '4.75em',
+  },
   'link-info': {
     display: 'inline-flex',
     cursor: 'pointer',
@@ -19,4 +28,4 @@ const usePostListStyles = makeStyles((theme) => ({
   }
 }))
 
-export default usePostListStyles
+export default usePostStyles
