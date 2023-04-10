@@ -1,8 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import PostsList from '../components/PostsList'
-import { CircularProgress, Container, Grid, Typography } from '@mui/material'
-import { getSomePosts, getMorePosts } from '../store/actionts/posts'
+import { Container, Typography } from '@mui/material'
+import { getSomePosts, getMorePosts } from '../store/actionts/postList'
+import Loading from '../components/Loading'
+import HelperMessage from '../components/HelperMessage'
 
 const Home = ({
   isLoading,
@@ -56,25 +58,14 @@ const Home = ({
             />
           )
         })
+      ) : isLoading ? (
+        <Loading />
       ) : (
-        <Grid
-          container
-          spacing={0}
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-          sx={{ minHeight: 'calc(100vh - 5em)' }}
-        >
-          <Grid item xs={3}>
-            {isLoading ? (
-              <CircularProgress size={60} />
-            ) : (
-              <Typography variant="h4" component={'h3'}>
-                Posts not found!
-              </Typography>
-            )}
-          </Grid>
-        </Grid>
+        <HelperMessage>
+          <Typography variant="h4" component={'h3'}>
+            Posts not found!
+          </Typography>
+        </HelperMessage>
       )}
     </Container>
   )
