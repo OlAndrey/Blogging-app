@@ -8,8 +8,8 @@ const createPost = async (req, res) => {
     const user = await User.findById(req.userId)
 
     if (req.files) {
-      const fileName = Date.now().toString() + req.files.file.name
-      req.files.file.mv(path.join(__dirname, '..', 'uploads', fileName))
+      const fileName = Date.now().toString() + req.files.image.name
+      req.files.image.mv(path.join(__dirname, '..', 'uploads', fileName))
 
       const newPostWithImage = new Post({
         fullName: user.fullName,
@@ -67,4 +67,20 @@ const getAllPosts = async (req, res) => {
   }
 }
 
-module.exports = { createPost, getAllPosts }
+const getPostById = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const post = await Post.findByIdAndUpdate(id, {
+      $inc: { views: 1 }
+    })
+
+    res.json({
+      post
+    })
+  } catch (err) {
+    res.status(500).json({ message: 'failed to get post' })
+  }
+}
+
+module.exports = { createPost, getAllPosts, getPostById }
