@@ -71,6 +71,13 @@ const setLoading = (payload) => {
   }
 }
 
+export const setCheckAuth = () => {
+  return {
+    type: AUTH.SET_CHECK_AUTH
+  }
+}
+
+
 const setToken = (token) => {
   return {
     type: AUTH.SET_TOKEN,
@@ -159,7 +166,7 @@ export const logout = () => async (dispatch) => {
   }
 }
 
-export const getMe = (token) => async (dispatch) => {
+export const getMe = () => async (dispatch) => {
   try {
     dispatch(setLoading(true))
 
@@ -175,6 +182,7 @@ export const getMe = (token) => async (dispatch) => {
   } catch (error) {
     console.error(error)
   } finally {
+    dispatch(setCheckAuth())
     dispatch(setLoading(false))
   }
 }

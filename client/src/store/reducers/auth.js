@@ -4,6 +4,7 @@ const init = {
   user: null,
   token: '',
   isLoading: false,
+  isCheckAuth: false,
   alert: null,
   errorInputs: {
     firstName: '',
@@ -35,10 +36,10 @@ const authReduce = (state = init, action) => {
       }
 
     case AUTH.SET_ALERT:
-        return {
-            ...state,
-            alert: action.payload
-        }
+      return {
+        ...state,
+        alert: action.payload
+      }
 
     case AUTH.SET_USER:
       return {
@@ -50,6 +51,12 @@ const authReduce = (state = init, action) => {
       return {
         ...state,
         isLoading: action.payload
+      }
+
+    case AUTH.SET_CHECK_AUTH:
+      return {
+        ...state,
+        isCheckAuth: true
       }
 
     case AUTH.SET_TOKEN:

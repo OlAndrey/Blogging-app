@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
-import { getMe, logout } from './store/actionts/auth'
+import { setCheckAuth, getMe, logout } from './store/actionts/auth'
 import Header from './components/HeaderContainer'
 import AppRouter from './components/AppRouter'
+import Loading from './components/Loading'
 
-function App({ user, token, getMe, logout }) {
-
+function App({ isCheckAuth, user, token, getMe, logout, setCheckAuth }) {
   useEffect(() => {
     const token = window.localStorage.getItem('userToken')
-    if (token) {
-      getMe(token)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (token) getMe(token)
+    else setCheckAuth()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -28,8 +27,14 @@ function App({ user, token, getMe, logout }) {
 
   return (
     <BrowserRouter>
-      <Header isLoggingUser={!!user} events={{logout: handlerLogout}} />
-      <AppRouter user={!!user} />
+      {isCheckAuth ? (
+        <>
+          <Header isLoggingUser={!!user} events={{ logout: handlerLogout }} />
+          <AppRouter user={!!user} />
+        </>
+      ) : (
+        <Loading />
+      )}
     </BrowserRouter>
   )
 }
@@ -38,9 +43,12 @@ const MemoApp = React.memo(App)
 
 const mapStateToProps = (state) => {
   return {
+    isCheckAuth: state.auth.isCheckAuth,
     user: state.auth.user,
     token: state.auth.token
   }
 }
 
-export default connect(mapStateToProps, { getMe, logout })(MemoApp)
+export default connect(mapStateToProps, { getMe, logout, setCheckAuth })(
+  MemoApp
+)
