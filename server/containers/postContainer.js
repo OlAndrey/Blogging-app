@@ -67,6 +67,30 @@ const getAllPosts = async (req, res) => {
   }
 }
 
+const getMyPost = async (req, res) => {
+  const { page = 1, limit = 10 } = req.query
+
+  try {
+    const user = await User.findById(req.userId)
+    const count = user.posts.length
+    const listPost = user.posts.slice((page - 1) * limit, page * limit)
+
+    const list = await Promise.all(
+      listPost.map((post) => {
+        return Post.findById(post._id)
+      })
+    )
+
+    res.json({
+      list,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page
+    })
+  } catch (err) {
+    res.status(500).json({ message: 'failed to get posts' })
+  }
+}
+
 const getPostById = async (req, res) => {
   const { id } = req.params
 
@@ -83,4 +107,4 @@ const getPostById = async (req, res) => {
   }
 }
 
-module.exports = { createPost, getAllPosts, getPostById }
+module.exports = { createPost, getAllPosts, getMyPost, getPostById }
