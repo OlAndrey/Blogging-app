@@ -1,23 +1,22 @@
 import React, { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import PostList from '../components/PostList'
-import { getSomePosts, getMorePosts } from '../store/actionts/postList'
+import { getSomeMyPosts, getMoreMyPosts } from '../store/actionts/postList'
 
-const Home = (props) => {
+const MyPosts = (props) => {
   const dispatch = useDispatch()
   const loadingRef = useRef(false)
 
   useEffect(() => {
-    console.log('rerender')
     if (!loadingRef.current) {
-      dispatch(getSomePosts()) 
+      dispatch(getSomeMyPosts()) 
       loadingRef.current = true
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const getMorePostsAction = (page) => {
-    dispatch(getMorePosts(page))
+    dispatch(getMoreMyPosts(page))
   }
 
  return (
@@ -25,6 +24,5 @@ const Home = (props) => {
   )
 }
 
-const HomeMemo = React.memo(Home)
 
-export default HomeMemo
+export default MyPosts

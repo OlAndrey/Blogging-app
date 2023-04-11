@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Header from './Header'
-import { HOME_ROUTE, LOGIN_ROUTE, POST_CREATE_ROUTE } from '../utils/const'
+import { HOME_ROUTE, LOGIN_ROUTE, MY_POSTS_ROUTE, POST_CREATE_ROUTE } from '../utils/const'
 
 const headersData = [
   {
@@ -16,7 +16,7 @@ const headersData = [
   {
     isNotSecure: false,
     label: 'My posts',
-    href: '/'
+    href: MY_POSTS_ROUTE
   },
   {
     isNotSecure: false,
