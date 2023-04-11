@@ -107,4 +107,23 @@ const getPostById = async (req, res) => {
   }
 }
 
-module.exports = { createPost, getAllPosts, getMyPost, getPostById }
+const removePost = async (req, res) => {
+  const { id } = req.params
+
+  try {
+    const post = await Post.findByIdAndRemove(id)
+
+    if (!post) return res.status(500).json({ message: 'post not found!' })
+
+    await User.findByIdAndUpdate(req.userId, {
+      $pull: { posts: id }
+    })
+
+    return res.json({
+      message: 'post has been deleted'
+    })
+  } catch (err) {
+    res.status(500).json({ message: 'failed to remove post' })
+  }
+}
+module.exports = { createPost, getAllPosts, getMyPost, getPostById, removePost }
