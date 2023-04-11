@@ -49,3 +49,25 @@ export const selectPost = (id) => async (dispatch) => {
     dispatch(setLoadingPost(false))
   }
 }
+
+export const removePost = (id) => async (dispatch) => {
+    try {
+      dispatch(setErrorPost(false))
+      dispatch(setLoadingPost(true))
+      const res = await axios.delete(getPostByIdEndpoint(id))
+  
+      const data = res.data
+      if (res.status === 200) {
+        dispatch(setPost(data.post))
+      } else {
+        throw Error(data.message)
+      }
+    } catch (error) {
+      console.error(error)
+      dispatch(clearPost())
+      dispatch(setErrorPost(true))
+    } finally {
+      dispatch(setLoadingPost(false))
+    }
+  }
+  

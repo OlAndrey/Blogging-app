@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Container, Typography } from '@mui/material'
 import { connect } from 'react-redux'
-import { selectPost } from '../store/actionts/post'
+import { selectPost, removePost } from '../store/actionts/post'
 import Post from '../components/Post'
 import Loading from '../components/Loading'
 import HelperMessage from '../components/HelperMessage'
 
-const View = ({ isLoading, isError, user, post, selectPost }) => {
+const View = ({ isLoading, isError, user, post, selectPost, removePost }) => {
   let params = useParams()
 
   useEffect(() => {
@@ -26,7 +26,12 @@ const View = ({ isLoading, isError, user, post, selectPost }) => {
           </Typography>
         </HelperMessage>
       ) : (
-        <Post own={post.author === user._id} isSinglePost={true} article={post} />
+        <Post
+          own={post.author === user._id}
+          isSinglePost={true}
+          article={post}
+          deletePost={removePost}
+        />
       )}
     </Container>
   )
@@ -41,4 +46,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { selectPost })(View)
+export default connect(mapStateToProps, { selectPost, removePost })(View)

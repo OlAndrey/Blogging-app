@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Grid, Link, Paper, Typography } from '@mui/material'
 import usePostStyles from '../styles/postStyles'
 
-const Post = ({ own, isSinglePost, article }) => {
+const Post = ({ own, isSinglePost, article, deletePost }) => {
   const classes = usePostStyles()
 
   return (
@@ -85,6 +85,7 @@ const Post = ({ own, isSinglePost, article }) => {
               variant="contained"
               color="error"
               sx={{ padding: { xs: '6px 6px', sm: '6px 16px' } }}
+              onClick={() => deletePost( article._id)}
             >
               Delete Article
             </Button>

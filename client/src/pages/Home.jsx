@@ -8,7 +8,6 @@ const Home = (props) => {
   const loadingRef = useRef(false)
 
   useEffect(() => {
-    console.log('rerender')
     if (!loadingRef.current) {
       dispatch(getSomePosts()) 
       loadingRef.current = true

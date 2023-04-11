@@ -4,6 +4,7 @@ import { Container, Typography } from '@mui/material'
 import Post from './Post'
 import Loading from './Loading'
 import HelperMessage from './HelperMessage'
+import { removePost } from '../store/actionts/post'
 
 const PostList = ({
   isLoading,
@@ -11,7 +12,8 @@ const PostList = ({
   currentPage,
   totalPages,
   posts,
-  getMorePosts
+  getMorePosts,
+  removePost
 }) => {
   const scrollHandler = () => {
     const containerHeight = document.documentElement.clientHeight
@@ -39,7 +41,12 @@ const PostList = ({
       {posts.length ? (
         posts.map((post, key) => {
           return (
-            <Post own={post.author === user._id} key={key} article={post} />
+            <Post
+              own={post.author === user._id}
+              key={key}
+              article={post}
+              deletePost={removePost}
+            />
           )
         })
       ) : isLoading ? (
@@ -65,4 +72,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {})(PostList)
+export default connect(mapStateToProps, { removePost })(PostList)
