@@ -107,6 +107,28 @@ const getPostById = async (req, res) => {
   }
 }
 
+const updatePost = async (req, res) => {
+  const { id } = req.params
+  try {
+    const { title, text } = req.body
+    const post = await Post.findById(id)
+
+    if (req.files) {
+      const fileName = Date.now().toString() + req.files.image.name
+      req.files.image.mv(path.join(__dirname, '..', 'uploads', fileName))
+      post.imgUrl = fileName || ''
+    }
+
+    post.title = title
+    post.text = text
+
+    await post.save()
+    res.status(200).json(post)
+  } catch (error) {
+    res.status(500).json({ message: 'failed to update post' })
+  }
+}
+
 const removePost = async (req, res) => {
   const { id } = req.params
 
@@ -126,4 +148,11 @@ const removePost = async (req, res) => {
     res.status(500).json({ message: 'failed to remove post' })
   }
 }
-module.exports = { createPost, getAllPosts, getMyPost, getPostById, removePost }
+module.exports = {
+  createPost,
+  getAllPosts,
+  getMyPost,
+  getPostById,
+  updatePost,
+  removePost
+}
