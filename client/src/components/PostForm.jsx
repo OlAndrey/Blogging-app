@@ -91,12 +91,20 @@ const PostForm = ({
         </label>
 
         <Box paddingY={2} maxWidth={'100%'}>
-          {data.image && (
+          {data.image ? (
             <img
               src={URL.createObjectURL(data.image)}
               alt="select img"
               className="previev-img"
             />
+          ) : data.imgUrl ? (
+            <img
+              src={`http://localhost:5000/${data.imgUrl}`}
+              alt="select img"
+              className="previev-img"
+            />
+          ) : (
+            ''
           )}
         </Box>
 

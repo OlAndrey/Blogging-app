@@ -72,7 +72,7 @@ const Post = ({ own, isSinglePost, article, deletePost }) => {
         >
           <Grid item xs={6}>
             <Link
-              href={'/edit/' + article._id}
+              href={'/post/edit/' + article._id}
               className={classes['link-info']}
               sx={{ color: 'white' }}
               underline="none"

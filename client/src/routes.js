@@ -1,10 +1,11 @@
-import { HOME_ROUTE, LOGIN_ROUTE, MY_POSTS_ROUTE, POST_CREATE_ROUTE, POST_VIEW_ROUTE, REGISTRATION_ROUTE } from "./utils/const"
+import { HOME_ROUTE, LOGIN_ROUTE, MY_POSTS_ROUTE, POST_CREATE_ROUTE, POST_EDIT_ROUTE, POST_VIEW_ROUTE, REGISTRATION_ROUTE } from "./utils/const"
 import Home from "./pages/Home"
 import SignIn from "./pages/SignIn"
 import SignUp from "./pages/SignUp"
 import CreatePostPage from "./pages/CreatePost"
 import View from "./pages/View"
 import MyPosts from "./pages/MyPosts"
+import EditPostPage from "./pages/EditPost"
 
 export const publicRoutes = [
     {
@@ -33,6 +34,10 @@ export const privateRoutes = [
     {
         path: MY_POSTS_ROUTE,
         component: <MyPosts /> 
+    },
+    {
+        path: POST_EDIT_ROUTE,
+        component: <EditPostPage /> 
     },
     {
         path: POST_VIEW_ROUTE,

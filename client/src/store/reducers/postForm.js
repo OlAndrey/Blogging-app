@@ -5,6 +5,7 @@ const init = {
   alert: null,
   inputs: {
     image: null,
+    imgUrl: '',
     title: '',
     text: ''
   }
@@ -23,6 +24,7 @@ const postFormReduce = (state = init, action) => {
         ...state,
         inputs: {
           image: null,
+          imgUrl: '',
           title: '',
           text: ''
         }
