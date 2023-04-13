@@ -2,7 +2,11 @@ const mongoose = require('mongoose')
 
 const commentSchema = mongoose.Schema(
   {
-    Comment: {
+    authorName: {
+      type: String,
+      required: true
+    },
+    comment: {
       type: String,
       required: true
     },

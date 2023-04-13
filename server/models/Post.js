@@ -22,6 +22,12 @@ const postSchema = mongoose.Schema(
       type: Number,
       default: 0
     },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+      }
+    ],
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'

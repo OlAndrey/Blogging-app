@@ -1,10 +1,11 @@
 const express = require('express')
+const fileUpload = require('express-fileupload')
 const { mongoose } = require('mongoose')
 const dotenv = require('dotenv')
 const cors = require('cors')
 const authRoute = require('./routes/auth')
 const postRoute = require('./routes/post')
-const fileUpload = require('express-fileupload')
+const commentRoute = require('./routes/comment')
 
 const server = express()
 dotenv.config()
@@ -25,6 +26,7 @@ server.use(express.json())
 server.use(express.static('uploads'))
 server.use('/api/auth', authRoute)
 server.use('/api/post', postRoute)
+server.use('/api/comment', commentRoute)
 
 // Server Setup
 const start = async () => {
