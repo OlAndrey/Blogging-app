@@ -1,6 +1,25 @@
 import React from 'react'
 import { Button, Grid, Link, Paper, Typography } from '@mui/material'
 import usePostStyles from '../styles/postStyles'
+import CommentBlock from './CommentBlock'
+
+const data = [
+  {
+    Comment: 'Hi',
+    authorName: 'Oleynik',
+    createdAt: new Date()
+  },
+  {
+    Comment: 'test',
+    authorName: 'me',
+    createdAt: new Date()
+  },
+  {
+    Comment: 'message',
+    authorName: 'Oleynik',
+    createdAt: new Date()
+  }
+]
 
 const Post = ({ own, isSinglePost, article, deletePost }) => {
   const classes = usePostStyles()
@@ -85,13 +104,14 @@ const Post = ({ own, isSinglePost, article, deletePost }) => {
               variant="contained"
               color="error"
               sx={{ padding: { xs: '6px 6px', sm: '6px 16px' } }}
-              onClick={() => deletePost( article._id)}
+              onClick={() => deletePost(article._id)}
             >
               Delete Article
             </Button>
           </Grid>
         </Grid>
       )}
+      {isSinglePost && <CommentBlock />}
     </Paper>
   )
 }
