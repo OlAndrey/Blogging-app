@@ -25,4 +25,19 @@ const createComment = async (req, res) => {
   }
 }
 
-module.exports = { createComment }
+const getAllPostComments = async (req, res) => {
+  try {
+    const { id } = req.params
+    const post = await Post.findById(id)
+    const comments = []
+
+    for (let index = post.comments.length - 1; index >= 0; index--) {
+      const comment = await Comment.findById(post.comments[index])
+      comments.push(comment)
+    }
+    res.status(200).json({ comments })
+  } catch (error) {
+    res.status(500).json({ message: 'failed to get comments' })
+  }
+}
+module.exports = { createComment, getAllPostComments }
