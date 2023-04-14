@@ -1,9 +1,11 @@
-import { POST } from '../../types/posts'
+import { POST, POST_COMMENT } from '../../types/posts'
 
 const init = {
   isLoading: false,
+  isLoadingComment: false,
   isError: false,
-  postData: null
+  postData: null,
+  comments: []
 }
 
 const selectedPostReduce = (state = init, action) => {
@@ -30,6 +32,18 @@ const selectedPostReduce = (state = init, action) => {
       return {
         ...state,
         postData: null
+      }
+
+    case POST_COMMENT.LOADING:
+      return {
+        ...state,
+        isLoadingComment: action.payload
+      }
+
+    case POST_COMMENT.SET_COMMENT:
+      return {
+        ...state,
+        comments: action.payload
       }
 
     default:

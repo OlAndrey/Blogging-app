@@ -1,8 +1,18 @@
 import React, { useState } from 'react'
-import { Button, Card, Container, Stack, TextField } from '@mui/material'
+import { connect } from 'react-redux'
+import {
+  Button,
+  Card,
+  Container,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material'
 import { Box } from '@mui/system'
 import Comment from './Comment'
-// import theme from '../styles'
+import { createComment } from '../store/actionts/post'
+import Loading from './Loading'
+import HelperMessage from './HelperMessage'
 
 const data = [
   {
@@ -22,8 +32,20 @@ const data = [
   }
 ]
 
-const CommentBlock = () => {
+const CommentBlock = ({ isLoading, postId, comments, createComment }) => {
   const [commentTxt, setCommentTxt] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handlerCreateComment = (e) => {
+    e.preventDefault()
+    if (commentTxt.trim()) {
+      setLoading(true)
+      createComment({ postId, comment: commentTxt }).then((res) => {
+        if (res) setCommentTxt('')
+        setLoading(false)
+      })
+    }
+  }
 
   return (
     <Container fixed>
@@ -44,26 +66,45 @@ const CommentBlock = () => {
               <Button
                 size="large"
                 sx={{
-                  bgcolor: "hsl(238, 40%, 52%)",
+                  bgcolor: 'hsl(238, 40%, 52%)',
                   color: '#fff',
                   p: '8px 25px',
                   '&:hover': {
-                    bgcolor: "hsl(239, 57%, 85%)"
+                    bgcolor: 'hsl(239, 57%, 85%)'
                   }
                 }}
+                disabled={loading}
+                onClick={handlerCreateComment}
               >
                 Send
               </Button>
             </Stack>
           </Box>
         </Card>
-        
-        {data.map((comment, i) => {
-          return <Comment key={i} commentData={comment} />;
-        })}
+
+        {isLoading ? (
+          <Loading />
+        ) : data.length ? (
+          data.map((comment, i) => {
+            return <Comment key={i} commentData={comment} />
+          })
+        ) : (
+          <HelperMessage>
+            <Typography variant="h4" component={'h3'}>
+              No comments yet!
+            </Typography>
+          </HelperMessage>
+        )}
       </Stack>
     </Container>
   )
 }
 
-export default CommentBlock
+const mapStateToProps = (state) => {
+  return {
+    isLoading: state.selectedPost.isLoadingComment,
+    comments: state.selectedPost.comments
+  }
+}
+
+export default connect(mapStateToProps, { createComment })(CommentBlock)

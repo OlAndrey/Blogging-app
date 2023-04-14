@@ -1,10 +1,17 @@
-import { POST } from '../../types/posts'
+import { POST, POST_COMMENT } from '../../types/posts'
 import axios from '../../utils/axios'
-import { getPostByIdEndpoint } from '../API/endpoints'
+import { getPostByIdEndpoint, postCommentEndpoint } from '../API/endpoints'
 
 const setLoadingPost = (payload) => {
   return {
     type: POST.LOADING,
+    payload
+  }
+}
+
+const setLoadingComment = (payload) => {
+  return {
+    type: POST_COMMENT.LOADING,
     payload
   }
 }
@@ -71,3 +78,20 @@ export const removePost = (id) => async (dispatch) => {
     }
   }
   
+  export const createComment = (commentData) => async (dispatch) => {
+    try {
+      dispatch(setLoadingComment(true))
+      const res = await axios.post(postCommentEndpoint(commentData.postId), commentData)
+
+      const data = res.data
+      if (res.status === 200) {
+        return data
+      } else {
+        throw Error(data.message)
+      }
+    } catch (error) {
+      console.error(error)
+    }finally{
+      dispatch(setLoadingComment(false))
+    }
+  }

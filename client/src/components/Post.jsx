@@ -3,24 +3,6 @@ import { Button, Grid, Link, Paper, Typography } from '@mui/material'
 import usePostStyles from '../styles/postStyles'
 import CommentBlock from './CommentBlock'
 
-const data = [
-  {
-    Comment: 'Hi',
-    authorName: 'Oleynik',
-    createdAt: new Date()
-  },
-  {
-    Comment: 'test',
-    authorName: 'me',
-    createdAt: new Date()
-  },
-  {
-    Comment: 'message',
-    authorName: 'Oleynik',
-    createdAt: new Date()
-  }
-]
-
 const Post = ({ own, isSinglePost, article, deletePost }) => {
   const classes = usePostStyles()
 
@@ -111,7 +93,7 @@ const Post = ({ own, isSinglePost, article, deletePost }) => {
           </Grid>
         </Grid>
       )}
-      {isSinglePost && <CommentBlock />}
+      {isSinglePost && <CommentBlock postId={article._id} />}
     </Paper>
   )
 }
