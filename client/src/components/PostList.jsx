@@ -39,11 +39,11 @@ const PostList = ({
   return (
     <Container fixed sx={{ padding: '4.5em 0 0 0' }}>
       {posts.length ? (
-        posts.map((post, key) => {
+        posts.map((post) => {
           return (
             <Post
-              own={post.author === user._id}
-              key={key}
+              own={post.author === user?._id}
+              key={post._id}
               article={post}
               deletePost={removePost}
             />

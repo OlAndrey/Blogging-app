@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { connect } from 'react-redux'
 import {
   Button,
@@ -10,32 +10,22 @@ import {
 } from '@mui/material'
 import { Box } from '@mui/system'
 import Comment from './Comment'
-import { createComment } from '../store/actionts/post'
+import { createComment, getAllPostComments } from '../store/actionts/post'
 import Loading from './Loading'
 import HelperMessage from './HelperMessage'
 
-const data = [
-  {
-    Comment: 'Hi',
-    authorName: 'Oleynik',
-    createdAt: new Date()
-  },
-  {
-    Comment: 'test',
-    authorName: 'me',
-    createdAt: new Date()
-  },
-  {
-    Comment: 'message',
-    authorName: 'Oleynik',
-    createdAt: new Date()
-  }
-]
-
-const CommentBlock = ({ isLoading, postId, comments, createComment }) => {
+const CommentBlock = ({ isLoading, postId, comments, createComment, getAllPostComments }) => {
   const [commentTxt, setCommentTxt] = useState('')
   const [loading, setLoading] = useState(false)
+  const loadingRef = useRef(false)
 
+  useEffect(() => {
+    if (!loadingRef.current) {
+      getAllPostComments(postId)
+      loadingRef.current = true
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   const handlerCreateComment = (e) => {
     e.preventDefault()
     if (commentTxt.trim()) {
@@ -84,8 +74,8 @@ const CommentBlock = ({ isLoading, postId, comments, createComment }) => {
 
         {isLoading ? (
           <Loading />
-        ) : data.length ? (
-          data.map((comment, i) => {
+        ) : comments.length ? (
+          comments.map((comment, i) => {
             return <Comment key={i} commentData={comment} />
           })
         ) : (
@@ -107,4 +97,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { createComment })(CommentBlock)
+export default connect(mapStateToProps, { createComment, getAllPostComments })(CommentBlock)

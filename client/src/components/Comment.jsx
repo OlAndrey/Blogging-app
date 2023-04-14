@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 
-const Comment = ({ commentData: { Comment, createdAt, authorName } }) => {
+const Comment = ({ commentData: { comment, createdAt, authorName } }) => {
   return (
     <Card>
       <Box sx={{ p: '1em' }}>
@@ -21,11 +21,11 @@ const Comment = ({ commentData: { Comment, createdAt, authorName } }) => {
                 {authorName}
               </Typography>
               <Typography sx={{ color: 'hsl(211, 10%, 45%)' }}>
-                {createdAt.toLocaleTimeString()}
+                {new Date(createdAt).toLocaleTimeString()}
               </Typography>
             </Stack>
             <Typography sx={{ color: 'hsl(211, 10%, 45%)', p: '20px 0' }}>
-              {Comment}
+              {comment}
             </Typography>
           </Box>
         </Stack>

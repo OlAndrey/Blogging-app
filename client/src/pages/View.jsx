@@ -27,7 +27,7 @@ const View = ({ isLoading, isError, user, post, selectPost, removePost }) => {
         </HelperMessage>
       ) : (
         <Post
-          own={post.author === user._id}
+          own={post.author === user?._id}
           isSinglePost={true}
           article={post}
           deletePost={removePost}

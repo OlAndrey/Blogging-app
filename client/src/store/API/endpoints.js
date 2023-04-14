@@ -7,4 +7,4 @@ export const getAllPostsEndpoint = (page) => `/post/get-all-posts?page=${page}`
 export const getMyPostsEndpoint = (page) => `/post/user/me?page=${page}`
 export const createPostEndpoint = '/post/add-post'
 
-export const postCommentEndpoint = (id) => `/comment/${id}`
+export const commentEndpoint = (id) => `/comment/${id}`
