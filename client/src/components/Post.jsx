@@ -1,4 +1,5 @@
 import React from 'react'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 import { Button, Grid, Link, Paper, Typography } from '@mui/material'
 import usePostStyles from '../styles/postStyles'
 import CommentBlock from './CommentBlock'
@@ -56,6 +57,10 @@ const Post = ({ own, isSinglePost, article, deletePost }) => {
           <Typography variant="h6">{article.fullName}</Typography>
         </Grid>
         <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
+          <VisibilityIcon sx={{ padding: '0 0 0 1em' }} />
+          <Typography variant="body1" paddingRight={2}>
+            {article.views}
+          </Typography>
           <Typography variant="body1">
             {new Date(article.createdAt).toLocaleDateString()}
           </Typography>
