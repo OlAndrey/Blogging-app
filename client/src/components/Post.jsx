@@ -1,8 +1,12 @@
 import React from 'react'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-import { Button, Grid, Link, Paper, Typography } from '@mui/material'
+import { Box, Button, Grid, Link, Paper, Typography } from '@mui/material'
+import dayjs from 'dayjs'
+import Calendar from 'dayjs/plugin/calendar'
 import usePostStyles from '../styles/postStyles'
 import CommentBlock from './CommentBlock'
+
+dayjs.extend(Calendar)
 
 const Post = ({ own, isSinglePost, article, deletePost }) => {
   const classes = usePostStyles()
@@ -53,16 +57,30 @@ const Post = ({ own, isSinglePost, article, deletePost }) => {
         my={'.25em'}
         alignItems={'center'}
       >
-        <Grid item xs={6}>
+        <Grid item md={6} xs={12}>
           <Typography variant="h6">{article.fullName}</Typography>
         </Grid>
-        <Grid item xs={6} display={'flex'} justifyContent={'flex-end'}>
-          <VisibilityIcon sx={{ padding: '0 0 0 1em' }} />
-          <Typography variant="body1" paddingRight={2}>
-            {article.views}
-          </Typography>
+        <Grid
+          item
+          md={6}
+          xs={12}
+          display="flex"
+          justifyContent={{ xs: 'space-between', md: 'flex-end' }}
+        >
+          <Box display="flex">
+            <VisibilityIcon />
+            <Typography variant="body1" paddingRight={2}>
+              {article.views}
+            </Typography>
+          </Box>
+
           <Typography variant="body1">
-            {new Date(article.createdAt).toLocaleDateString()}
+            {dayjs('2023-04-16T19:41:35.912Z').calendar(null, {
+              sameDay: 'HH:mm [Today]',
+              lastDay: 'HH:mm [Yesterday]',
+              lastWeek: 'DD MMMM',
+              sameElse: 'DD MMMM YYYY'
+            })}
           </Typography>
         </Grid>
       </Grid>
