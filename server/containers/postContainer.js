@@ -1,21 +1,24 @@
 const path = require('path')
 const Post = require('../models/Post')
 const User = require('../models/User')
+const { dataUri } = require('../utils/checkFiles')
+const { uploader } = require('../utils/cloudinaryConfig')
 
 const createPost = async (req, res) => {
   try {
     const { title, text } = req.body
     const user = await User.findById(req.userId)
 
-    if (req.files) {
-      const fileName = Date.now().toString() + req.files.image.name
-      req.files.image.mv(path.join(__dirname, '..', 'uploads', fileName))
+    if (req.file) {
+      const file = dataUri(req).content
+      const result = await uploader.upload(file)
+      const imgUrl = result.url
 
       const newPostWithImage = new Post({
         fullName: user.fullName,
         title,
         text,
-        imgUrl: fileName,
+        imgUrl,
         author: req.userId
       })
 
