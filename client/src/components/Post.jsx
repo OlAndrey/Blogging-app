@@ -44,7 +44,7 @@ const Post = ({ own, isSinglePost, article, deletePost }) => {
       </Typography>
       {article.imgUrl && (
         <img
-          src={`http://localhost:5000/${article.imgUrl}`}
+          src={article.imgUrl}
           alt="post image"
           className="article-img"
         />

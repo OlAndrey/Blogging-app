@@ -99,7 +99,7 @@ const PostForm = ({
             />
           ) : data.imgUrl ? (
             <img
-              src={`http://localhost:5000/${data.imgUrl}`}
+              src={data.imgUrl}
               alt="select img"
               className="previev-img"
             />
