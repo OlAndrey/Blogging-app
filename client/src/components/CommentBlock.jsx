@@ -14,7 +14,14 @@ import { createComment, getAllPostComments } from '../store/actionts/post'
 import Loading from './Loading'
 import HelperMessage from './HelperMessage'
 
-const CommentBlock = ({ isLoading, postId, comments, createComment, getAllPostComments }) => {
+const CommentBlock = ({
+  isLoading,
+  postId,
+  user,
+  comments,
+  createComment,
+  getAllPostComments
+}) => {
   const [commentTxt, setCommentTxt] = useState('')
   const [loading, setLoading] = useState(false)
   const loadingRef = useRef(false)
@@ -40,37 +47,48 @@ const CommentBlock = ({ isLoading, postId, comments, createComment, getAllPostCo
   return (
     <Container fixed>
       <Stack spacing={3} my={4}>
-        <Card>
-          <Box sx={{ p: '15px' }}>
-            <Stack direction="row" spacing={2} alignItems="flex-start">
-              <TextField
-                multiline
-                fullWidth
-                minRows={3}
-                placeholder="Add a comment"
-                value={commentTxt}
-                onChange={(e) => {
-                  setCommentTxt(e.target.value)
-                }}
-              />
-              <Button
-                size="large"
-                sx={{
-                  bgcolor: 'hsl(238, 40%, 52%)',
-                  color: '#fff',
-                  p: '8px 25px',
-                  '&:hover': {
-                    bgcolor: 'hsl(239, 57%, 85%)'
-                  }
-                }}
-                disabled={loading}
-                onClick={handlerCreateComment}
-              >
-                Send
-              </Button>
-            </Stack>
-          </Box>
-        </Card>
+        {user ? (
+          <Card>
+            <Box sx={{ p: '15px' }}>
+              <Stack direction="row" spacing={2} alignItems="flex-start">
+                <TextField
+                  multiline
+                  fullWidth
+                  minRows={3}
+                  placeholder="Add a comment"
+                  value={commentTxt}
+                  onChange={(e) => {
+                    setCommentTxt(e.target.value)
+                  }}
+                />
+                <Button
+                  size="large"
+                  sx={{
+                    bgcolor: 'hsl(238, 40%, 52%)',
+                    color: '#fff',
+                    p: '8px 25px',
+                    '&:hover': {
+                      bgcolor: 'hsl(239, 57%, 85%)'
+                    }
+                  }}
+                  disabled={loading}
+                  onClick={handlerCreateComment}
+                >
+                  Send
+                </Button>
+              </Stack>
+            </Box>
+          </Card>
+        ) : (
+          <Typography
+            variant="h5"
+            component="h3"
+            color="orange"
+            textAlign="center"
+          >
+            Please login to comment on this post.
+          </Typography>
+        )}
 
         {isLoading ? (
           <Loading />
@@ -80,7 +98,7 @@ const CommentBlock = ({ isLoading, postId, comments, createComment, getAllPostCo
           })
         ) : (
           <HelperMessage>
-            <Typography variant="h4" component={'h3'}>
+            <Typography variant="h4" color="grey" component="h3">
               No comments yet!
             </Typography>
           </HelperMessage>
@@ -92,9 +110,12 @@ const CommentBlock = ({ isLoading, postId, comments, createComment, getAllPostCo
 
 const mapStateToProps = (state) => {
   return {
+    user: state.auth.user,
     isLoading: state.selectedPost.isLoadingComment,
     comments: state.selectedPost.comments
   }
 }
 
-export default connect(mapStateToProps, { createComment, getAllPostComments })(CommentBlock)
+export default connect(mapStateToProps, { createComment, getAllPostComments })(
+  CommentBlock
+)
