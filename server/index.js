@@ -12,7 +12,12 @@ const app = express()
 dotenv.config()
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://localhost:5500']
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:5500',
+      'https://blogging-app-li92.vercel.app',
+      'https://blogging-app-li92-git-test-olandrey.vercel.app'
+    ]
   })
 )
 const port = process.env.PORT || 3000
