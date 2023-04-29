@@ -84,7 +84,7 @@ User can login to our website. If user is not found, error is generated .
 
 User can signup to our website. No two user can have same email id.
 
-![](https://res.cloudinary.com/dtpqmlah5/image/upload/v1682706623/snapshot-2_khi1zw.png)
+![](https://res.cloudinary.com/dtpqmlah5/image/upload/v1682706623/snapshot-3_r04yjm.png)
 
 ### Add Article Page
 
